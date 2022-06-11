@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping("/api/requestline")
+@RequestMapping("/api/requestlines")
 public class RequestLineController 
 {
 					
