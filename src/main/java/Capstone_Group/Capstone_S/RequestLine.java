@@ -1,5 +1,7 @@
 package Capstone_Group.Capstone_S;
 
+import javax.persistence.Column;
+//import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.lang.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -20,10 +23,10 @@ public class RequestLine
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int Id; 
 	
+	@Column(nullable=false)
+	private int RequestId;
 	
-	private int RequstId;
-	
-	
+	@Column(nullable=false)
 	private int ProductId; 	
     	
     @Min(value=0, message="must be equal or greater than 0")
@@ -36,6 +39,7 @@ public class RequestLine
 
     @ManyToOne
     @JoinColumn(name="ProductId",insertable=false, updatable=false)
+    @Nullable
     @JsonIgnore
     private Product Products;
    
@@ -43,6 +47,7 @@ public class RequestLine
     
     @ManyToOne
     @JoinColumn(name="RequestId",insertable=false, updatable=false)
+    //@Nullable
     @JsonIgnore
     private Request Requests;
     
@@ -52,10 +57,10 @@ public class RequestLine
     public RequestLine() {}
 
 
-	public RequestLine(int id, int requstId, int productId, int quantity) {
+	public RequestLine(int id, int requestId, int productId, int quantity) {
 		super();
 		Id = id;
-		RequstId = requstId;
+		RequestId = requestId;
 		ProductId = productId;
 		Quantity = quantity;
 	}
@@ -73,13 +78,13 @@ public class RequestLine
 	}
 
 
-	public int getRequstId() {
-		return RequstId;
+	public int getRequestId() {
+		return RequestId;
 	}
 
 
-	public void setRequstId(int requstId) {
-		RequstId = requstId;
+	public void setRequestId(int requestId) {
+		RequestId = requestId;
 	}
 
 

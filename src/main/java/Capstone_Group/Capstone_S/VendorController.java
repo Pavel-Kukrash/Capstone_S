@@ -64,7 +64,13 @@ public class VendorController
 		        if (p.isPresent())
 		        {
 		            Vendor oldVendor = p.get();
+		            oldVendor.setCode(updatedVendor.getCode());
 		            oldVendor.setName(updatedVendor.getName());
+		            oldVendor.setAddress(updatedVendor.getAddress());
+		            oldVendor.setCity(updatedVendor.getCity());
+		            oldVendor.setState(updatedVendor.getState());
+		            
+		            		            
 		            try 
 		            {
 		                vendorRepo.save(oldVendor);

@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.lang.Nullable;
+
 //import org.hibernate.annotations.ColumnDefault;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -34,29 +36,26 @@ public class Request
 	@Column(length=80, nullable=true)
      private String RejectionReason; 
 
-	@Column(length=20, nullable=false)
-	//@ColumnDefault(value = "Pickup")
+	@Column(length=20, nullable=false)	
      private String DeliveryMode = "Pickup"; 
 
 	@Column(length=20, nullable=false)	   
 	private String Status = "NEW"; 
 
-	@Column(name = "Total", columnDefinition = "decimal(11,2)")
-	//@ColumnDefault("0")	
-     private BigDecimal Total; 
+	@Column(name = "Total", columnDefinition = "decimal(11,2)", nullable=true)		
+    private BigDecimal Total; 
      
      private int UserId;	
 
-    // public virtual User? User 
-     
+    
      @ManyToOne
      @JoinColumn(name="UserId",insertable=false, updatable=false)
-     @JsonIgnore
+     @JsonIgnore     
      private User Users;
      
-    // public virtual List<RequestLine>? RequestLines 
-	
+    	
      @OneToMany(mappedBy="Id")
+    // @Nullable
  	 private List<RequestLine> RequestLines;
      
     // constructors

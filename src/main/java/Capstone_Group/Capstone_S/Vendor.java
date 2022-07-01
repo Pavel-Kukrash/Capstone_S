@@ -11,6 +11,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.springframework.lang.Nullable;
+
+
+
 @Entity
 @Table(name = "Vendors", uniqueConstraints= {@UniqueConstraint(name="UK_Vendor_Code", columnNames="Code")})
 public class Vendor 
@@ -47,6 +51,7 @@ public class Vendor
     // navigation property
     
 	@OneToMany(mappedBy="Id")
+	//@Nullable
 	private List<Product> Products; 
 	
 	

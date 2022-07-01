@@ -11,6 +11,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.springframework.lang.Nullable;
+
 
 @Entity
 @Table(name = "Users", uniqueConstraints= {@UniqueConstraint(name="UK_User_Username", columnNames="Username") })
@@ -45,6 +47,7 @@ public class User
     // navigation property
 	
 	@OneToMany(mappedBy="Id")
+	@Nullable
 	private List<Request> Requests; 
      
 	

@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+//import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -48,13 +48,16 @@ public class UserController
 		        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}		
 		
+		@SuppressWarnings("unchecked")
 		@GetMapping("{username}/{password}")
-		public User GetUserByLogin(String username, String password)
+		
+		public User GetUserByLogin(@PathVariable String username, @PathVariable String password)
 		{
-		    Query query = em.createQuery("SELECT u FROM User u WHERE u.Username = :username AND u.Password = :password");
-		    query.setParameter("username", username);
-		    query.setParameter("password", password);
-		    List<User> users = query.getResultList();
+			
+		    List<User> users = em.createQuery("SELECT u FROM User u WHERE u.Username = :username AND u.Password = :password")
+		    .setParameter("username", username)
+		    .setParameter("password", password)
+		    .getResultList();
 						
 		    if (users.size() == 1)
 		        return users.get(0);
@@ -86,6 +89,10 @@ public class UserController
 	        {
 	            User oldUser = p.get();
 	            oldUser.setUsername(updatedUser.getUsername());
+	            oldUser.setPassword(updatedUser.getPassword());
+	            oldUser.setFirstname(updatedUser.getFirstname());
+	            oldUser.setLastname(updatedUser.getLastname());	                      
+	            
 	            try 
 	            {
 	                userRepo.save(oldUser);

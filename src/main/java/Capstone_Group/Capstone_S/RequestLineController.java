@@ -49,8 +49,8 @@ public class RequestLineController
 						        return p;
 						    else
 						        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-						}	
-							
+						}						
+						
 							
 						@PostMapping
 					    @ResponseStatus(HttpStatus.CREATED)
@@ -58,7 +58,11 @@ public class RequestLineController
 						{        
 					        try 
 					        {
-					            return requestlineRepo.save(requestline);
+					            var newrequestline = requestlineRepo.save(requestline);
+					            
+					            RecalculateRequestTotal(newrequestline.getRequestId());
+					            
+					            return newrequestline;
 					        }
 					        catch (Exception e)
 					        {
@@ -75,9 +79,13 @@ public class RequestLineController
 					        {
 					        	RequestLine oldData = p.get();
 					            oldData.setQuantity(updatedRequestLine.getQuantity());
+					            
 					            try 
 					            {
 					            	requestlineRepo.save(oldData);
+					            	
+					            	RecalculateRequestTotal(updatedRequestLine.getRequestId());
+					            						            						            	
 					                return oldData;
 					            }
 					            
@@ -97,7 +105,11 @@ public class RequestLineController
 					    {
 					        try 
 					        {
+					        	Optional<RequestLine> requestline = requestlineRepo.findById(id);
+					        	var requestid = requestline.get().getRequestId();
+					        	
 					        	requestlineRepo.deleteById(id);
+					        	RecalculateRequestTotal(requestid);	
 					        }
 					        
 					        catch (Exception e)
@@ -115,7 +127,7 @@ public class RequestLineController
 					    			JOIN Product p ON rl.ProductId = p.Id
 					    			WHERE rl.RequestId = :requestId
 					    			""";
-					    	Query query = em.createQuery(sqlstr);  // EntityManager
+					    	Query query = em.createQuery(sqlstr);  
 					    	query.setParameter("requestId", requestId);
 					    	BigDecimal total = (BigDecimal) query.getSingleResult();
 						

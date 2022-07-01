@@ -14,6 +14,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.springframework.lang.Nullable;
+
+
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -46,19 +50,21 @@ public class Product
     
     @ManyToOne
     @JoinColumn(name="VendorId",insertable=false, updatable=false)
+    //@Nullable
     @JsonIgnore
     private Vendor Vendor;
 
    // public List<RequestLine>? RequestLines { get; set; }
 	
     @OneToMany(mappedBy="Id")
+    //@Column(nullable=true)
 	private List<RequestLine> RequestLines; 
     
     // constructors
     
     public Product() {}
 
-    public Product(int id, String partNbr, String name, BigDecimal price, String unit, String photoPath, int vendorId)
+    public Product(int id, String partNbr, String name, BigDecimal price, String unit, String photoPath, int vendorid)
     {
 	super();
 	Id = id;
@@ -67,7 +73,7 @@ public class Product
 	Price = price;
 	Unit = unit;
 	PhotoPath = photoPath;
-	VendorId = vendorId;	
+	VendorId = vendorid;	
 	
     }
 
@@ -125,8 +131,8 @@ public class Product
 		return VendorId;
 	}
 
-	public void setVendorId(int vendorId) {
-		VendorId = vendorId;
+	public void setVendorId(int vendorid) {
+		VendorId = vendorid;
 	} 
     
     
